@@ -88,7 +88,7 @@ quantile(tooth$Length, 0.99)
 
 # Check Central Limit Theorum with 5 samples of 10 observations each.. 
 
-ind = sample(5, nrow(tooth), replace = FALSE, prob = c(0.2, 0.2, 0.2, 0.2, 0.2))
+ind = sample(5, nrow(tooth), replace = TRUE, prob = c(0.2, 0.2, 0.2, 0.2, 0.2))
 
 s1 = tooth[ind == 1,]
 s2 = tooth[ind == 2,]
@@ -117,15 +117,31 @@ mean(s5$Length)
 
 ## Mean of 3 Samples mean
 
-(20.6428 + 21.4181 + 17.9) / 3
+# (20.6428 + 21.4181 + 17.9) / 3
 # [1] 19.98697
 
 ###################################################################################
 
 
 
-# Distribution - Normal, Binomial?
+# Distribution - Normal.
 
+mean(tooth$Length)
+
+sd(tooth$Length)
+
+# Find the probability of Leangth of less than 10
+
+qnorm(10, 18.81333, 7.649, lower.tail = FALSE)   # 2.6 % 
+# If more than use qnorm()
+
+
+# Find the probability of Leanght between 12 and 15
+
+dnorm(15, 18.8133, 7.649) - dnorm(12, 18.8133, 7.649)
+
+
+# 90% tooth leanth is less than. 
 
 
 
@@ -151,18 +167,65 @@ cov(tooth$Length, tooth$Dose)
 
 
 
+
+
 # Normalization & Standerdization
 
 # Fourier Transformation
 
 
 
+
 # ***** SAMPLE 1 and 2
 # ____________________
 
-# Creat Hypothesis
 
-# T-test, Anaova, check p value (Check Standerd Error of mean in table)
+
+# Create Hypothes 1
+
+# H0: Smaple 1 and Sample 2 tooth length are equal
+# Ha: Sample 1 and Sample 2 tooth length are not equal 
+
+# Use two tailed t-test 
+
+t.test(sample1$Length, sample2$Length)
+
+# Based on p-value we failed to reject Null Hypothesis. 
+
+# 95 percent confidence interval:
+# -7.5710156  0.1710156
+# On lower end and upper end change.. 
+
+# Right Sample Size:
+
+delta = mean(sample1$Length) - mean(sample2$Length)
+
+sd(sample1$Length)
+sd(sample2$Length)
+
+avgSD = (((30-1)*(8.266^2)+(30-1)*(6.605^2))/(30+30-2))^0.5
+
+power.t.test(n = 30, delta = delta, sd = avgSD, sig.level = 0.05, type = 'two.sample')
+
+# power is 0.4695
+
+power.t.test(power = 0.4695, delta = delta, sd = avgSD, sig.level = 0.05, type = 'two.sample')
+
+# Right sie of sample is 30. As mean is very close. 
+
+
+
+
+
+# Creat Hypothesis 2
+
+# H0: Tooth Leangth No change  with power of dose
+# Ha: Toth Length Changes with to power of dose  
+
+# Use Analysis of CoVariance - ANCOVA
+
+
+
 
 
 
